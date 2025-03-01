@@ -23,7 +23,8 @@ docker-compose up -d
 ```
 
 3. Приложение будет доступно по адресу http://localhost:8000
-4. Для остановки приложения выполните:
+4. Swagger - http://localhost:8000/docs
+5. Для остановки приложения выполните:
 
 ```bash
 docker-compose down
