@@ -15,5 +15,5 @@ class UserInDB(BaseModel):
 
     class Config:
         orm_mode = True
-        from_attributes = True  # Это важно для использования from_orm
+        from_attributes = True 
 

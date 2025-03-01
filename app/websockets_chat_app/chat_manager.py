@@ -20,15 +20,12 @@ class ConnectionManager:
         if chat_id not in self.active_connections:
             self.active_connections[chat_id] = []
             
-        # Сохраняем соединение вместе с данными пользователя
         connection_info = {"websocket": websocket, "user": user}
         self.active_connections[chat_id].append(connection_info)
         logging.info(f"User {user.username} connected to chat {chat_id}")
         
     def disconnect(self, websocket: WebSocket, chat_id: int = None):
-        # Если chat_id известен
         if chat_id and chat_id in self.active_connections:
-            # Найдем и удалим соединение
             for i, connection in enumerate(self.active_connections[chat_id]):
                 if connection["websocket"] == websocket:
                     user = connection["user"]
@@ -36,11 +33,9 @@ class ConnectionManager:
                     logging.info(f"User {user.username} disconnected from chat {chat_id}")
                     break
                     
-            # Если в чате больше нет соединений, удалим запись о чате
             if not self.active_connections[chat_id]:
                 del self.active_connections[chat_id]
         else:
-            # Если chat_id неизвестен, ищем во всех чатах
             for chat_id, connections in list(self.active_connections.items()):
                 for i, connection in enumerate(connections):
                     if connection["websocket"] == websocket:
@@ -49,7 +44,6 @@ class ConnectionManager:
                         logging.info(f"User {user.username} disconnected from chat {chat_id}")
                         break
                         
-                # Если в чате больше нет соединений, удалим запись о чате
                 if not self.active_connections[chat_id]:
                     del self.active_connections[chat_id]
                     

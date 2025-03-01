@@ -16,14 +16,13 @@ class UserRepository:
         db_user = User(username=user.username, email=user.email, hashed_password=hashed_password)
         self.db.add(db_user)
         try:
-            await self.db.commit()  # Async commit
-            await self.db.refresh(db_user)  # Async refresh
+            await self.db.commit() 
+            await self.db.refresh(db_user) 
             return db_user
         except IntegrityError:
             raise HTTPException(status_code=400, detail="User already exists")
 
     async def get_user_by_username(self, username: str):
-        # Используем select() для асинхронной сессии
         stmt = select(User).filter(User.username == username)
         result = await self.db.execute(stmt)
         return result.scalars().first()

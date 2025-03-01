@@ -6,5 +6,5 @@ class Chat(Base):
     __tablename__ = 'chats'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
-    type = Column(String)  # "private" или "group"
+    type = Column(String)  # "private" || "group"
     messages = relationship("Message", back_populates="chat")

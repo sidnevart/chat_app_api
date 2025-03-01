@@ -9,7 +9,6 @@ from ..schemas.user import UserInDB
 from dotenv import load_dotenv
 import os
 
-# Загрузка переменных окружения из .env
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -61,7 +60,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db = Depends(get
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        # Декодируем токен
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
@@ -69,7 +67,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db = Depends(get
     except JWTError:
         raise credentials_exception
 
-    # Получаем пользователя из базы данных
     repo = UserRepository(db)
     user = await repo.get_user_by_username(username)
     if user is None:

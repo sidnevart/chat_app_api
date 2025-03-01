@@ -14,7 +14,6 @@ async def test_register_user(db_session):
     await db_session.commit()
     await db_session.refresh(user)
     
-    # Проверяем, что пользователь создан
     result = await db_session.execute(select(User).where(User.id == user.id))
     fetched_user = result.scalars().first()
     
@@ -31,7 +30,6 @@ async def test_get_user_by_username(db_session):
     db_session.add(user)
     await db_session.commit()
     
-    # Ищем пользователя по имени
     result = await db_session.execute(select(User).where(User.username == "finduser"))
     found_user = result.scalars().first()
     
